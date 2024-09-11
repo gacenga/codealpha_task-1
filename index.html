@@ -21,6 +21,8 @@
             padding: 20px;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
+            max-width: 400px;
+            width: 100%;
         }
         .screen {
             background-color: rgba(255, 255, 255, 0.3);
@@ -33,7 +35,7 @@
             border-radius: 5px;
             margin-bottom: 15px;
         }
-        .btn {
+        .btn-custom {
             background-color: rgba(255, 255, 255, 0.3);
             border: none;
             color: white;
@@ -44,7 +46,7 @@
             border-radius: 10px;
             transition: background-color 0.3s ease;
         }
-        .btn:hover {
+        .btn-custom:hover {
             background-color: rgba(255, 255, 255, 0.5);
         }
         .highlight-btn {
@@ -57,46 +59,141 @@
 <div class="calculator">
     <input type="text" id="expression" class="form-control screen" readonly>
     <div class="row">
-        <button class="btn" onclick="appendToExpression('7')">7</button>
-        <button class="btn" onclick="appendToExpression('8')">8</button>
-        <button class="btn" onclick="appendToExpression('9')">9</button>
-        <button class="btn highlight-btn" onclick="appendToExpression('/')">/</button>
+        <button class="btn btn-custom" onclick="appendToExpression('7')">7</button>
+        <button class="btn btn-custom" onclick="appendToExpression('8')">8</button>
+        <button class="btn btn-custom" onclick="appendToExpression('9')">9</button>
+        <button class="btn btn-custom highlight-btn" onclick="appendToExpression('/')">/</button>
     </div>
     <div class="row">
-        <button class="btn" onclick="appendToExpression('4')">4</button>
-        <button class="btn" onclick="appendToExpression('5')">5</button>
-        <button class="btn" onclick="appendToExpression('6')">6</button>
-        <button class="btn highlight-btn" onclick="appendToExpression('*')">*</button>
+        <button class="btn btn-custom" onclick="appendToExpression('4')">4</button>
+        <button class="btn btn-custom" onclick="appendToExpression('5')">5</button>
+        <button class="btn btn-custom" onclick="appendToExpression('6')">6</button>
+        <button class="btn btn-custom highlight-btn" onclick="appendToExpression('*')">*</button>
     </div>
     <div class="row">
-        <button class="btn" onclick="appendToExpression('1')">1</button>
-        <button class="btn" onclick="appendToExpression('2')">2</button>
-        <button class="btn" onclick="appendToExpression('3')">3</button>
-        <button class="btn highlight-btn" onclick="appendToExpression('-')">-</button>
+        <button class="btn btn-custom" onclick="appendToExpression('1')">1</button>
+        <button class="btn btn-custom" onclick="appendToExpression('2')">2</button>
+        <button class="btn btn-custom" onclick="appendToExpression('3')">3</button>
+        <button class="btn btn-custom highlight-btn" onclick="appendToExpression('-')">-</button>
     </div>
     <div class="row">
-        <button class="btn" onclick="appendToExpression('0')">0</button>
-        <button class="btn" onclick="appendToExpression('.')">.</button>
-        <button class="btn" onclick="clearDisplay()">C</button>
-        <button class="btn highlight-btn" onclick="appendToExpression('+')">+</button>
+        <button class="btn btn-custom" onclick="appendToExpression('0')">0</button>
+        <button class="btn btn-custom" onclick="appendToExpression('.')">.</button>
+        <button class="btn btn-custom" onclick="clearDisplay()">C</button>
+        <button class="btn btn-custom highlight-btn" onclick="appendToExpression('+')">+</button>
     </div>
     <div class="row">
-        <button class="btn highlight-btn" onclick="calculate()">=</button>
+        <button class="btn btn-custom highlight-btn" onclick="calculate()">=</button>
     </div>
     <div class="row mt-3">
-        <button class="btn highlight-btn" onclick="showAdvancedOptions()">Advanced</button>
+        <button class="btn btn-custom highlight-btn" onclick="toggleAdvanced()">Advanced</button>
     </div>
     <div id="advanced-options" class="row mt-3" style="display: none;">
-        <input type="text" id="permutation-input" class="form-control mb-2" placeholder="n Pr r">
-        <input type="text" id="combination-input" class="form-control mb-2" placeholder="n Cr r">
-        <input type="text" id="regression-input" class="form-control mb-2" placeholder='Data e.g. [[1,2],[2,3]]'>
-        <button class="btn highlight-btn" onclick="calculateAdvanced()">Calculate Advanced</button>
+        <div class="col-12 mb-2">
+            <input type="text" id="permutation-input" class="form-control" placeholder="n Pr r">
+        </div>
+        <div class="col-12 mb-2">
+            <input type="text" id="combination-input" class="form-control" placeholder="n Cr r">
+        </div>
+        <div class="col-12 mb-2">
+            <input type="text" id="regression-input" class="form-control" placeholder='Data e.g. [[1,2],[2,3]]'>
+        </div>
+        <button class="btn btn-custom highlight-btn" onclick="calculateAdvanced()">Calculate Advanced</button>
         <div id="advanced-results" class="mt-3 text-white"></div>
     </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"></script>
-<script src="calculator.js"></script>
+<script>
+    function appendToExpression(value) {
+        const display = document.getElementById('expression');
+        display.value += value;
+    }
+
+    function clearDisplay() {
+        const display = document.getElementById('expression');
+        display.value = '';
+    }
+
+    function calculate() {
+        const display = document.getElementById('expression');
+        try {
+            const result = math.evaluate(display.value);
+            display.value = result;
+        } catch (error) {
+            display.value = 'Error';
+        }
+    }
+
+    function toggleAdvanced() {
+        const advancedOptions = document.getElementById('advanced-options');
+        advancedOptions.style.display = advancedOptions.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function calculateAdvanced() {
+        const permutationInput = document.getElementById('permutation-input').value;
+        const combinationInput = document.getElementById('combination-input').value;
+        const regressionInput = document.getElementById('regression-input').value;
+        const results = document.getElementById('advanced-results');
+
+        let resultText = '';
+
+        if (permutationInput) {
+            const [n, r] = permutationInput.split(' Pr ').map(Number);
+            if (!isNaN(n) && !isNaN(r)) {
+                resultText += `Permutation (${n} P ${r}): ${math.nPr(n, r)}<br>`;
+            } else {
+                resultText += 'Invalid permutation input.<br>';
+            }
+        }
+
+        if (combinationInput) {
+            const [n, r] = combinationInput.split(' Cr ').map(Number);
+            if (!isNaN(n) && !isNaN(r)) {
+                resultText += `Combination (${n} C ${r}): ${math.nCr(n, r)}<br>`;
+            } else {
+                resultText += 'Invalid combination input.<br>';
+            }
+        }
+
+        if (regressionInput) {
+            try {
+                const data = JSON.parse(regressionInput);
+                resultText += `Regression: ${math.regression(data)}<br>`;
+            } catch (error) {
+                resultText += 'Invalid regression data format.<br>';
+            }
+        }
+
+        results.innerHTML = resultText;
+    }
+
+    math.import({
+        nPr: function(n, r) {
+            return math.factorial(n) / math.factorial(n - r);
+        },
+        nCr: function(n, r) {
+            return math.factorial(n) / (math.factorial(r) * math.factorial(n - r));
+        },
+        regression: function(data) {
+            if (!Array.isArray(data) || data.length === 0) return 'Invalid data';
+            
+            const x = data.map(point => point[0]);
+            const y = data.map(point => point[1]);
+            const n = data.length;
+
+            const xSum = x.reduce((acc, val) => acc + val, 0);
+            const ySum = y.reduce((acc, val) => acc + val, 0);
+            const xySum = x.reduce((acc, val, idx) => acc + val * y[idx], 0);
+            const xSqSum = x.reduce((acc, val) => acc + val * val, 0);
+
+            const m = (n * xySum - xSum * ySum) / (n * xSqSum - xSum * xSum);
+            const b = (ySum - m * xSum) / n;
+
+            return `y = ${m.toFixed(2)}x + ${b.toFixed(2)}`;
+        }
+    });
+</script>
 
 </body>
 </html>
