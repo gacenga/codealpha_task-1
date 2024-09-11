@@ -1,23 +1,27 @@
 // Append value to the input field (calculator display)
 function appendToExpression(value) {
     const display = document.getElementById('expression');
+    display.focus();  // Ensure the input stays focused
     display.value += value;
 }
 
 // Clear the display
 function clearDisplay() {
-    document.getElementById('expression').value = '';
+    const display = document.getElementById('expression');
+    display.value = '';
+    display.focus();  // Keep input field focused
 }
 
 // Evaluate the mathematical expression entered
 function calculate() {
-    const expr = document.getElementById('expression').value;
+    const display = document.getElementById('expression');
     try {
-        const result = math.evaluate(expr);
-        document.getElementById('expression').value = result;
+        const result = math.evaluate(display.value);
+        display.value = result;
     } catch (error) {
-        document.getElementById('expression').value = 'Error';
+        display.value = 'Error';
     }
+    display.focus();  // Keep input field focused
 }
 
 // Import additional math functions (Permutation, Combination, etc.)
