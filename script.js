@@ -31,8 +31,7 @@ math.import({
         return math.derivative(expr, variable).toString();
     },
     integral: function(expr, variable) {
-        // Placeholder for integrals
-        return `∫(${expr})dx`; // You can integrate with symbolic computation libraries
+        return `∫(${expr})dx`; // Placeholder for integrals
     },
     regression: function(dataString) {
         try {
@@ -49,7 +48,6 @@ function linearRegression(data) {
     let xSum = 0, ySum = 0, xySum = 0, xSqSum = 0;
     const n = data.length;
 
-    // Calculate summations for x, y, x*y, and x^2
     for (let i = 0; i < n; i++) {
         let x = data[i][0];
         let y = data[i][1];
@@ -59,10 +57,8 @@ function linearRegression(data) {
         xSqSum += x * x;
     }
 
-    // Calculate slope (m) and y-intercept (b)
     const m = (n * xySum - xSum * ySum) / (n * xSqSum - xSum * xSum);
     const b = (ySum - m * xSum) / n;
 
-    // Return the equation of the line
     return `y = ${m.toFixed(2)}x + ${b.toFixed(2)}`;
 }
