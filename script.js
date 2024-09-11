@@ -21,7 +21,52 @@ function calculate() {
     }
 }
 
-// Adding additional math functions for complex calculations (Permutation, Combination, etc.)
+// Show advanced options
+function showAdvancedOptions() {
+    const advancedOptions = document.getElementById('advanced-options');
+    advancedOptions.style.display = advancedOptions.style.display === 'none' ? 'block' : 'none';
+}
+
+// Calculate advanced functions
+function calculateAdvanced() {
+    const permutationInput = document.getElementById('permutation-input').value;
+    const combinationInput = document.getElementById('combination-input').value;
+    const regressionInput = document.getElementById('regression-input').value;
+    const results = document.getElementById('advanced-results');
+
+    let resultText = '';
+
+    if (permutationInput) {
+        const [n, r] = permutationInput.split(' Pr ').map(Number);
+        if (!isNaN(n) && !isNaN(r)) {
+            resultText += `Permutation (${n} P ${r}): ${math.nPr(n, r)}<br>`;
+        } else {
+            resultText += 'Invalid permutation input.<br>';
+        }
+    }
+
+    if (combinationInput) {
+        const [n, r] = combinationInput.split(' Cr ').map(Number);
+        if (!isNaN(n) && !isNaN(r)) {
+            resultText += `Combination (${n} C ${r}): ${math.nCr(n, r)}<br>`;
+        } else {
+            resultText += 'Invalid combination input.<br>';
+        }
+    }
+
+    if (regressionInput) {
+        try {
+            const data = JSON.parse(regressionInput);
+            resultText += `Regression: ${math.regression(data)}<br>`;
+        } catch (error) {
+            resultText += 'Invalid regression data format.<br>';
+        }
+    }
+
+    results.innerHTML = resultText;
+}
+
+// Add advanced functions to math.js
 math.import({
     nPr: function(n, r) {
         return math.factorial(n) / math.factorial(n - r);
@@ -29,38 +74,21 @@ math.import({
     nCr: function(n, r) {
         return math.factorial(n) / (math.factorial(r) * math.factorial(n - r));
     },
-    derivative: function(expr, variable) {
-        return math.derivative(expr, variable).toString();
-    },
-    integral: function(expr, variable) {
-        return `∫(${expr})dx`;
-    },
-    regression: function(dataString) {
-        try {
-            const data = JSON.parse(dataString);
-            return linearRegression(data);
-        } catch (error) {
-            return 'Invalid data format. Please enter data as [[x1, y1], [x2, y2], ...]';
-        }
+    regression: function(data) {
+        if (!Array.isArray(data) || data.length === 0) return 'Invalid data';
+        
+        const x = data.map(point => point[0]);
+        const y = data.map(point => point[1]);
+        const n = data.length;
+
+        const xSum = x.reduce((acc, val) => acc + val, 0);
+        const ySum = y.reduce((acc, val) => acc + val, 0);
+        const xySum = x.reduce((acc, val, idx) => acc + val * y[idx], 0);
+        const xSqSum = x.reduce((acc, val) => acc + val * val, 0);
+
+        const m = (n * xySum - xSum * ySum) / (n * xSqSum - xSum * xSum);
+        const b = (ySum - m * xSum) / n;
+
+        return `y = ${m.toFixed(2)}x + ${b.toFixed(2)}`;
     }
 });
-
-// Linear Regression function for advanced calculations
-function linearRegression(data) {
-    let xSum = 0, ySum = 0, xySum = 0, xSqSum = 0;
-    const n = data.length;
-
-    for (let i = 0; i < n; i++) {
-        let x = data[i][0];
-        let y = data[i][1];
-        xSum += x;
-        ySum += y;
-        xySum += x * y;
-        xSqSum += x * x;
-    }
-
-    const m = (n * xySum - xSum * ySum) / (n * xSqSum - xSum * xSum);
-    const b = (ySum - m * xSum) / n;
-
-    return `y = ${m.toFixed(2)}x + ${b.toFixed(2)}`;
-}
