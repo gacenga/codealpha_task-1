@@ -1,6 +1,7 @@
-// Append to the expression
+// Append value to the input field (calculator display)
 function appendToExpression(value) {
-    document.getElementById('expression').value += value;
+    const display = document.getElementById('expression');
+    display.value += value;
 }
 
 // Clear the display
@@ -8,7 +9,7 @@ function clearDisplay() {
     document.getElementById('expression').value = '';
 }
 
-// Calculate the result
+// Evaluate the mathematical expression entered
 function calculate() {
     const expr = document.getElementById('expression').value;
     try {
@@ -19,7 +20,7 @@ function calculate() {
     }
 }
 
-// Extra functionalities (Permutation, Combination, etc.)
+// Import additional math functions (Permutation, Combination, etc.)
 math.import({
     nPr: function(n, r) {
         return math.factorial(n) / math.factorial(n - r);
@@ -31,19 +32,19 @@ math.import({
         return math.derivative(expr, variable).toString();
     },
     integral: function(expr, variable) {
-        return `∫(${expr})dx`; // Placeholder for integrals
+        return `∫(${expr})dx`;
     },
     regression: function(dataString) {
         try {
-            const data = JSON.parse(dataString); // Parse data points
-            return linearRegression(data); // Perform linear regression
+            const data = JSON.parse(dataString);
+            return linearRegression(data);
         } catch (error) {
             return 'Invalid data format. Please enter data as [[x1, y1], [x2, y2], ...]';
         }
     }
 });
 
-// Linear Regression function
+// Linear Regression function for advanced calculations
 function linearRegression(data) {
     let xSum = 0, ySum = 0, xySum = 0, xSqSum = 0;
     const n = data.length;
