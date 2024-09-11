@@ -4,41 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="calculator.css">
 </head>
 <body>
-    <div class="calculator">
-        <div class="display">
-            <input type="text" id="expression" placeholder="Enter your calculation or data points" autofocus>
-        </div>
-        <div class="buttons">
-            <!-- Number and Operation Buttons -->
-            <button onclick="appendToExpression('7')">7</button>
-            <button onclick="appendToExpression('8')">8</button>
-            <button onclick="appendToExpression('9')">9</button>
-            <button onclick="appendToExpression('/')">/</button>
-            <button onclick="appendToExpression('4')">4</button>
-            <button onclick="appendToExpression('5')">5</button>
-            <button onclick="appendToExpression('6')">6</button>
-            <button onclick="appendToExpression('*')">*</button>
-            <button onclick="appendToExpression('1')">1</button>
-            <button onclick="appendToExpression('2')">2</button>
-            <button onclick="appendToExpression('3')">3</button>
-            <button onclick="appendToExpression('-')">-</button>
-            <button onclick="appendToExpression('0')">0</button>
-            <button onclick="appendToExpression('.')">.</button>
-            <button onclick="appendToExpression('+')">+</button>
-            <button onclick="clearDisplay()">C</button>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="calculator shadow-lg rounded">
+            <div class="display bg-dark text-white rounded-top p-3">
+                <input type="text" id="expression" class="form-control bg-transparent text-end" placeholder="Enter your calculation or data points" autofocus>
+            </div>
+            <div class="buttons row g-2 p-3">
+                <!-- Number and Operation Buttons -->
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('7')">7</button>
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('8')">8</button>
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('9')">9</button>
+                <button class="btn btn-outline-warning col-3" onclick="appendToExpression('/')">/</button>
+                
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('4')">4</button>
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('5')">5</button>
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('6')">6</button>
+                <button class="btn btn-outline-warning col-3" onclick="appendToExpression('*')">*</button>
+                
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('1')">1</button>
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('2')">2</button>
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('3')">3</button>
+                <button class="btn btn-outline-warning col-3" onclick="appendToExpression('-')">-</button>
+                
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('0')">0</button>
+                <button class="btn btn-outline-light col-3" onclick="appendToExpression('.')">.</button>
+                <button class="btn btn-outline-success col-3" onclick="calculate()">=</button>
+                <button class="btn btn-outline-warning col-3" onclick="appendToExpression('+')">+</button>
 
-            <!-- Advanced Math Buttons -->
-            <button onclick="appendToExpression('nPr(')">nPr</button>
-            <button onclick="appendToExpression('nCr(')">nCr</button>
-            <button onclick="appendToExpression('derivative(')">d/dx</button>
-            <button onclick="appendToExpression('integral(')">∫dx</button>
-            <button onclick="appendToExpression('regression(')">Reg</button>
-            <button onclick="calculate()">=</button>
+                <!-- Advanced Math Buttons -->
+                <button class="btn btn-outline-info col-6" onclick="appendToExpression('nPr(')">nPr</button>
+                <button class="btn btn-outline-info col-6" onclick="appendToExpression('nCr(')">nCr</button>
+                <button class="btn btn-outline-danger col-6" onclick="appendToExpression('derivative(')">d/dx</button>
+                <button class="btn btn-outline-danger col-6" onclick="appendToExpression('integral(')">∫dx</button>
+                <button class="btn btn-outline-info col-6" onclick="appendToExpression('regression(')">Reg</button>
+                <button class="btn btn-outline-danger col-6" onclick="clearDisplay()">C</button>
+            </div>
         </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.6.0/math.js"></script>
     <script src="calculator.js"></script>
 </body>
